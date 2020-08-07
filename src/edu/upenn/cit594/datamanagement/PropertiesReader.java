@@ -9,27 +9,28 @@ public class PropertiesReader {
 	private int zipCodeColumn;
 	private int marketValueColumn;
 	private int livableAreaColumn;
-	private TreeMap<Property, Integer> propertyMap; //holds the property and the number of times that property has identicle objects in the provided file
+	private int totalNumFields;
+	private List<Property> propertyList; //holds the property and the number of times that property has identicle objects in the provided file
 	BufferedReader fileReader;
 	
 	public PropertiesReader(String fileName) {
 		this.fileName = fileName;
-		propertyMap = new TreeMap<Property, Integer>();
+		propertyList = new ArrayList<Property>();
 	}
 	
 	/**
 	 * Return the property list. If the list is empty, read the file and populate the list prior to returning
 	 * @return
 	 */
-	public TreeMap<Property, Integer> getPropertyMap() {
-		if (this.propertyMap.isEmpty()) {
+	public List<Property> getPropertyList() {
+		if (this.propertyList.isEmpty()) {
 			ReadPropertyFile();
 		}
-		return this.propertyMap;
+		return this.propertyList;
 	}
 	
 	public void Print() {
-		for (Property prop : propertyMap.keySet()) {
+		for (Property prop : propertyList) {
 			System.out.println(prop.getZipCode() + "\t" + prop.getMarketValue() + "\t" + prop.getTotalLivableArea());
 		}
 	}
@@ -47,19 +48,18 @@ public class PropertiesReader {
 				return;
 			}
 			GetRequiredColumnLocations(line.split(",")); //get the locations of the correct headers
+			int i = 1;
 			while ((line = fileReader.readLine()) != null) {
-				String[] lineComponents = ParseCSVFile(line); //super SLOW
-				String zipCode = AdjustZipCode(GetLineComponent(this.zipCodeColumn, lineComponents));
-				double marketValue = GetNumericComponent(GetLineComponent(this.marketValueColumn, lineComponents));
-				double totalLivableArea = GetNumericComponent(GetLineComponent(this.livableAreaColumn, lineComponents));
-				
-				Property currentProp = new Property(zipCode, marketValue, totalLivableArea, 1);
-				int numberOfProps = 1;
-				if (propertyMap.containsKey(currentProp)) {
-					numberOfProps = propertyMap.get(currentProp) + 1;
+				String[] lineComponents = line.split(","); //try splitting the line with commas
+				if (lineComponents.length != this.totalNumFields) { //if the total number of components of that line does not match the total number of header fields
+					lineComponents = ParseCSVFile(line); //parse the line using regex to not split lines at commas between quotations
 				}
-				currentProp.setNumberOfSimilarProperties(numberOfProps);
-				this.propertyMap.put(currentProp, numberOfProps);
+				String zipCode = AdjustZipCode(GetLineComponent(this.zipCodeColumn, lineComponents));
+				Double marketValue = GetNumericComponent(GetLineComponent(this.marketValueColumn, lineComponents));
+				Double totalLivableArea = GetNumericComponent(GetLineComponent(this.livableAreaColumn, lineComponents));
+				Property currentProp = new Property(zipCode, marketValue, totalLivableArea, 1);
+				propertyList.add(currentProp);
+				i++;
 			}
 		}
 		catch (Exception e) {
@@ -103,7 +103,8 @@ public class PropertiesReader {
 	 * @param headerComponents
 	 */
 	private void GetRequiredColumnLocations(String[] headerComponents) {
-		for (int i = 0; i < headerComponents.length; i++) {
+		this.totalNumFields = headerComponents.length;
+		for (int i = 0; i < totalNumFields; i++) {
 			String header = headerComponents[i];
 			if (header.equalsIgnoreCase("market_value")) {
 				this.marketValueColumn = i;

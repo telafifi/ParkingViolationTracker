@@ -19,15 +19,20 @@ public class Main {
 		
 		
 		
-		System.out.println("start");
+		System.out.println("Reading Data");
 		PropertiesReader myReader = new PropertiesReader("properties.csv");
-		TreeMap<Property, Integer> map = myReader.getPropertyMap();
-		PropertyProcessor myProcessor = new PropertyProcessor(map.keySet());
-		String zipCode = "19154";
-		double val1 = myProcessor.getAverageValue(zipCode, new AverageMarketValueCollector());
-		System.out.println(zipCode + " " + val1);
-		double val2 = myProcessor.getAverageValue(zipCode, new AverageLivableAreaCollector());
-		System.out.println(zipCode + " " + val2);
+		List<Property> map = myReader.getPropertyList();
+		PropertyProcessor myProcessor = new PropertyProcessor(map);
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please input zipcode you would like to see");
+		while (in.hasNextLine()) {
+			String zipCode = in.nextLine();
+			int val1 = myProcessor.getAverageValue(zipCode, new AverageMarketValueCollector());
+			System.out.println(zipCode + " " + val1);
+			int val2 = myProcessor.getAverageValue(zipCode, new AverageLivableAreaCollector());
+			System.out.println(zipCode + " " + val2);
+			System.out.println("Please input zipcode you would like to see");
+		}
 		
 //		System.out.println(myPop.GetTotalPopulation());
 	}

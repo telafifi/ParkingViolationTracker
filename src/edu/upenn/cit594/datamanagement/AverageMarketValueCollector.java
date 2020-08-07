@@ -6,26 +6,30 @@ import java.util.stream.*;
 import edu.upenn.cit594.data.*;
 
 public class AverageMarketValueCollector implements PropertyAverageValueCollector {
+	private static HashMap<String, Integer> avgValInZipMap;
 
+	public AverageMarketValueCollector() {
+		if (avgValInZipMap == null) {
+			avgValInZipMap = new HashMap<String, Integer>();
+		}
+	}
 	@Override
-	public double getAverageValue(String zipCode, Set<Property> properties) {
+	public int getAverageValue(String zipCode, List<Property> properties) {
+		if (avgValInZipMap.containsKey(zipCode)) {
+			return avgValInZipMap.get(zipCode);
+		}
 		int numberOfHouses = 0;
 		double totalMarketValue = 0;
-		int numberSimilar = 0;
 		for (Property prop : properties) {
-			if (prop.getZipCode().equalsIgnoreCase(zipCode)) {
-				numberSimilar = prop.getNumberOfSimilarProperties();
-				Double MarketValue = prop.getMarketValue();
-				if (!MarketValue.isNaN()) {
-					numberOfHouses = numberOfHouses + numberSimilar;
-					totalMarketValue = totalMarketValue + numberSimilar * prop.getMarketValue();
-				}
-			}
-			if (prop.getZipCode().compareTo(zipCode) > 1) {
-				break;
+			Double MarketValue = prop.getMarketValue();
+			if (!MarketValue.isNaN()) {
+				numberOfHouses = numberOfHouses + 1;
+				totalMarketValue = totalMarketValue + MarketValue;
 			}
 		}
-		return totalMarketValue/numberOfHouses;
+		Integer returnVal = (int)(totalMarketValue/numberOfHouses);
+		avgValInZipMap.put(zipCode, returnVal);
+		return returnVal;
 	}
 
 }
