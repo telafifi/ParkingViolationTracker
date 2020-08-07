@@ -52,12 +52,13 @@ public class PropertiesReader {
 			while ((line = fileReader.readLine()) != null) {
 				String[] lineComponents = line.split(","); //try splitting the line with commas
 				if (lineComponents.length != this.totalNumFields) { //if the total number of components of that line does not match the total number of header fields
-					lineComponents = ParseCSVFile(line); //parse the line using regex to not split lines at commas between quotations
+					lineComponents = ParseCSVFile(line); //this method takes a while to run so only run it on lines that need it
+					//parse the line using regex to not split lines at commas between quotations
 				}
 				String zipCode = AdjustZipCode(GetLineComponent(this.zipCodeColumn, lineComponents));
 				Double marketValue = GetNumericComponent(GetLineComponent(this.marketValueColumn, lineComponents));
 				Double totalLivableArea = GetNumericComponent(GetLineComponent(this.livableAreaColumn, lineComponents));
-				Property currentProp = new Property(zipCode, marketValue, totalLivableArea, 1);
+				Property currentProp = new Property(zipCode, marketValue, totalLivableArea);
 				propertyList.add(currentProp);
 				i++;
 			}

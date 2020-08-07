@@ -5,13 +5,11 @@ public class Property implements Comparable {
 	private String zipCode;
 	private Double marketValue;
 	private Double totalLivableArea;
-	private int numberOfSimilarProperties;
 	
-	public Property(String zipCode, double marketValue, double totalLivableArea, int numberOfSimilarProperties) {
+	public Property(String zipCode, double marketValue, double totalLivableArea) {
 		this.zipCode = zipCode;
 		this.marketValue = marketValue;
 		this.totalLivableArea = totalLivableArea;
-		this.numberOfSimilarProperties = numberOfSimilarProperties;
 	}
 	
 	//Getters and Setters
@@ -19,13 +17,6 @@ public class Property implements Comparable {
 		return zipCode;
 	}
 	
-	public int getNumberOfSimilarProperties() {
-		return numberOfSimilarProperties;
-	}
-
-	public void setNumberOfSimilarProperties(int numberOfSimilarProperties) {
-		this.numberOfSimilarProperties = numberOfSimilarProperties;
-	}
 
 	public double getMarketValue() {
 		return marketValue;
