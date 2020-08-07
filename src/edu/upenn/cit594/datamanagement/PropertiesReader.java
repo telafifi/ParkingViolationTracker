@@ -9,27 +9,27 @@ public class PropertiesReader {
 	private int zipCodeColumn;
 	private int marketValueColumn;
 	private int livableAreaColumn;
-	private List<Property> propertyList;
+	private TreeMap<Property, Integer> propertyMap; //holds the property and the number of times that property has identicle objects in the provided file
 	BufferedReader fileReader;
 	
 	public PropertiesReader(String fileName) {
 		this.fileName = fileName;
-		propertyList = new ArrayList<Property>();
+		propertyMap = new TreeMap<Property, Integer>();
 	}
 	
 	/**
 	 * Return the property list. If the list is empty, read the file and populate the list prior to returning
 	 * @return
 	 */
-	public List<Property> getPropertyList() {
-		if (this.propertyList.isEmpty()) {
+	public TreeMap<Property, Integer> getPropertyMap() {
+		if (this.propertyMap.isEmpty()) {
 			ReadPropertyFile();
 		}
-		return this.propertyList;
+		return this.propertyMap;
 	}
 	
 	public void Print() {
-		for (Property prop : propertyList) {
+		for (Property prop : propertyMap.keySet()) {
 			System.out.println(prop.getZipCode() + "\t" + prop.getMarketValue() + "\t" + prop.getTotalLivableArea());
 		}
 	}
@@ -53,8 +53,13 @@ public class PropertiesReader {
 				double marketValue = GetNumericComponent(GetLineComponent(this.marketValueColumn, lineComponents));
 				double totalLivableArea = GetNumericComponent(GetLineComponent(this.livableAreaColumn, lineComponents));
 				
-				Property currentProp = new Property(zipCode, marketValue, totalLivableArea);
-				this.propertyList.add(currentProp);
+				Property currentProp = new Property(zipCode, marketValue, totalLivableArea, 1);
+				int numberOfProps = 1;
+				if (propertyMap.containsKey(currentProp)) {
+					numberOfProps = propertyMap.get(currentProp) + 1;
+				}
+				currentProp.setNumberOfSimilarProperties(numberOfProps);
+				this.propertyMap.put(currentProp, numberOfProps);
 			}
 		}
 		catch (Exception e) {

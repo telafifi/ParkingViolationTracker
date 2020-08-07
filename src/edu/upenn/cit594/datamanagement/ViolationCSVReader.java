@@ -17,8 +17,8 @@ public class ViolationCSVReader implements ViolationReader {
 	}
 	
 	@Override
-	public List<ParkingViolation> readViolations() {
-		List<ParkingViolation> violations = new ArrayList<ParkingViolation>();
+	public ArrayList<ParkingViolation> readViolations() {
+		ArrayList<ParkingViolation> violations = new ArrayList<ParkingViolation>();
 		File file = new File(this.fileName);
 		try {
 			fileReader = new BufferedReader(new FileReader(file)); //buffered reader to read file

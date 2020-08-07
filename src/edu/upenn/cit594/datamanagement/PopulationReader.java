@@ -5,20 +5,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PopulationReader {
-	String fileName;
-	Map<String, Integer> populationMap;
-	BufferedReader fileReader;
+	private String fileName;
+	private HashMap<String, Integer> populationMap;
+	private BufferedReader fileReader;
+	private int totalPopulation;
 	
 	public PopulationReader(String fileName) {
 		this.fileName = fileName;
 		this.populationMap = new HashMap<String, Integer>();
+		this.totalPopulation = 0;
 	}
 	
 	/**
 	 * Return the population map. If the map is unpopulated (empty) then read the population file prior to returning the map
 	 * @return
 	 */
-	public Map<String, Integer> getPopulationMap() {
+	public HashMap<String, Integer> getPopulationMap() {
 		if (this.populationMap.keySet().isEmpty()) {
 			ReadPopulationFile();
 		}
@@ -39,6 +41,7 @@ public class PopulationReader {
 					String zip_code = lineComponents[0];
 					int population = Integer.parseInt(lineComponents[1]);
 					populationMap.put(zip_code, population);
+					totalPopulation = totalPopulation + population; //increase the total population while reading the file
 				}
 			}
 		}
@@ -54,6 +57,14 @@ public class PopulationReader {
 				} 
 			}
 		}
+	}
+	
+	/**
+	 * Get the total population sum of the entire run
+	 * @return
+	 */
+	public int GetTotalPopulation() {
+		return totalPopulation; //return the total population
 	}
 	
 }

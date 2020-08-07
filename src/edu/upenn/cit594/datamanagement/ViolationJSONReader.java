@@ -25,8 +25,8 @@ public class ViolationJSONReader implements ViolationReader {
 	}
 
 	@Override
-	public List<ParkingViolation> readViolations() {
-		List<ParkingViolation> violations = new ArrayList<ParkingViolation>(); //instantiate array of parking violations
+	public ArrayList<ParkingViolation> readViolations() {
+		ArrayList<ParkingViolation> violations = new ArrayList<ParkingViolation>(); //instantiate array of parking violations
 		JSONParser parser = new JSONParser(); //launch JSON parser
 		
 		try {

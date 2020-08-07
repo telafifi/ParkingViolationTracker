@@ -1,4 +1,6 @@
-package edu.upenn.cit594.datamanagement;
+package edu.upenn.cit594.processor;
+
+import edu.upenn.cit594.datamanagement.*;
 
 public class ViolationJSONProcessor extends ViolationProcessor {
 	public ViolationJSONProcessor(String fileName) {
