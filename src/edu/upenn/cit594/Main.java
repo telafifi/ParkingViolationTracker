@@ -10,8 +10,8 @@ import edu.upenn.cit594.data.*;
 public class Main {
 	public static void main(String[] args) {
 		
-//		PopulationReader myPop = new PopulationReader("population.txt");
-//		
+		PopulationReader myPop = new PopulationReader("population.txt");
+		HashMap<String, Integer> populationMap = myPop.getPopulationMap();
 //		
 //		ViolationProcessor myProcess = new ViolationCSVProcessor("parking.csv");
 //		myProcess.CalculateFinesPerCapita(myPop.getPopulationMap());
@@ -27,11 +27,14 @@ public class Main {
 		System.out.println("Please input zipcode you would like to see");
 		while (in.hasNextLine()) {
 			String zipCode = in.nextLine();
-			int val1 = myProcessor.getAverageValue(zipCode, new AverageMarketValueCollector());
+			int val1 = myProcessor.getAverageValue(zipCode, new MarketValueCollector());
 			System.out.println(zipCode + " " + val1);
-			int val2 = myProcessor.getAverageValue(zipCode, new AverageLivableAreaCollector());
+			int val2 = myProcessor.getAverageValue(zipCode, new LivableAreaCollector());
 			System.out.println(zipCode + " " + val2);
+			int val3 = myProcessor.getTotalValuePerCapita(zipCode, populationMap, new MarketValueCollector());
+			System.out.println(zipCode + " " + val3);
 			System.out.println("Please input zipcode you would like to see");
+			
 		}
 		
 //		System.out.println(myPop.GetTotalPopulation());

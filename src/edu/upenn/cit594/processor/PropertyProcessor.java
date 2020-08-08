@@ -7,18 +7,24 @@ import java.util.*;
 public class PropertyProcessor {
 	private List<Property> properties;
 	private HashMap<String, List<Property>> propsInZipMap;
-	private HashMap<String, Double> avgMarketInZipMap;
-	private HashMap<String, Double> avgLivableInZipMap;
 	
 	public PropertyProcessor(List<Property> properties) {
 		this.properties = properties;
 		this.propsInZipMap = new HashMap<String, List<Property>>();
-		this.avgLivableInZipMap = new HashMap<String, Double>();
-		this.avgLivableInZipMap = new HashMap<String, Double>();
 	}
 	
-	public int getAverageValue(String zipCode, PropertyAverageValueCollector collect) {
-		return collect.getAverageValue(zipCode, GetPropertiesInZipCode(zipCode));
+	public int getAverageValue(String zipCode, PropertyValueCollector collect) {
+		List<Property> propertiesInZip = GetPropertiesInZipCode(zipCode);
+		double totalValue = collect.getTotalValue(zipCode, propertiesInZip);
+		int numberOfProperties = collect.getNumberOfValidProperties(zipCode);
+		return (int)(totalValue/numberOfProperties);
+	}
+	
+	public int getTotalValuePerCapita(String zipCode, HashMap<String, Integer> populationMap, PropertyValueCollector collect) {
+		if (!populationMap.containsKey(zipCode)) {
+			return 0;
+		}
+		return (int)(collect.getTotalValue(zipCode, GetPropertiesInZipCode(zipCode))/populationMap.get(zipCode));
 	}
 	
 	private List<Property> GetPropertiesInZipCode(String zipCode){
