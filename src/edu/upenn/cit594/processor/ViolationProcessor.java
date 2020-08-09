@@ -7,27 +7,36 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;
 
-public abstract class ViolationProcessor {
+public abstract class ViolationProcessor extends Thread { //extend thread to read all files simultaneously
 	protected ViolationReader reader;
 	private ArrayList<ParkingViolation> parkingViolations;
 	private HashMap<String, Integer> populationMap;
 	private TreeMap<String, Double> fineMap;
+	private String fineMapOutput; //string to hold 
 	
 	/**
 	 * Constructor
 	 * @param fileName
 	 */
 	public ViolationProcessor(String fileName) {
-		reader = createReader(fileName);
+		reader = createReader(fileName); //read the file and get the list of violations
+		this.fineMap = new TreeMap<String, Double>(); //instantiate tree of fines
+		fineMapOutput = ""; //set finemap to null at processor launch
+	}
+	
+	
+	/**
+	 * Used to read the file asynchronously
+	 */
+	public void run() {
 		this.parkingViolations = reader.readViolations(); //read the violations at launch
-		this.fineMap = new TreeMap<String, Double>();
 	}
 	
 	/**
-	 * Calculate the fines per capita
+	 * Calculate the fines per capita by taking in a map of all zip codes and maps
 	 * @return
 	 */
-	public void CalculateFinesPerCapita(HashMap<String, Integer> populationMap){
+	public void CalculateFinesPerCapita(HashMap<String, Integer> populationMap){ 
 		this.populationMap = populationMap;
 		this.PopulateFineTree();
 		this.CalculateFinePerCapita();
@@ -50,37 +59,56 @@ public abstract class ViolationProcessor {
 		}
 	}
 	
+	/**
+	 * Calculate the fine per capita for each zip code
+	 */
 	private void CalculateFinePerCapita() {
-		for (String zip : fineMap.keySet()) {
-			Double fine = fineMap.get(zip);
-			if (this.populationMap.containsKey(zip)) {
+		for (String zip : fineMap.keySet()) { //go through the fine map
+			Double fine = fineMap.get(zip); //get the total fine
+			if (this.populationMap.containsKey(zip)) { //if the fines exist in the population map
 				int population = populationMap.get(zip);
-				fine = fine / population;
+				if (population == 0) {
+					fine = Double.NaN; //set fine to not a number to ignore it if the population is zero
+				}
+				else {
+					fine = fine / population; //get the fine per capita
+				}
 			}
 			else {
-				fine = Double.NaN;
+				fine = Double.NaN; //otherwise set as not a number
 			}
-			this.fineMap.put(zip, fine);
+			this.fineMap.put(zip, fine); //replace the value with the per capita value
 		}
 	}
 	
-	public TreeMap<String, Double> getFineMap() {
-		return fineMap;
+	/**
+	 * Print the fines per capita to the console for viewers to see (Memoization method to not loop through the list of inputs every time)
+	 */
+	public String getFineMap() {
+		if (fineMapOutput.isEmpty()) {
+			BuildFineMapOutput();
+		}
+		return fineMapOutput;
 	}
 	
-	public void PrintFineMap() {
-		if (fineMap == null || fineMap.isEmpty()) {
+	
+	/**
+	 * Build the fine map string to print by iterating through the entire list
+	 */
+	private void BuildFineMapOutput() {
+		if (fineMap == null || fineMap.isEmpty()) { //return if the map is null or empty
 			return;
 		}
 		DecimalFormat df = new DecimalFormat("#.####"); //truncate the double to 4 decimal spots
-		df.setRoundingMode(RoundingMode.DOWN);
-		for (String key : fineMap.keySet()) {
+		df.setRoundingMode(RoundingMode.DOWN); //set rounding mode to round down
+		StringBuilder buildMapOutput = new StringBuilder(); //build a string builder
+		for (String key : fineMap.keySet()) { //go through list of fines per capita
 			Double finePerCapita = fineMap.get(key);
-			if (!finePerCapita.isNaN()) {
-				System.out.println(key + " " + df.format(finePerCapita));
+			if (!finePerCapita.isNaN() && finePerCapita != 0) { //check that the value is numeric
+				buildMapOutput.append(key + " " + df.format(finePerCapita) + "\n"); //append that value in the correct format to the stringbuilder
 			}
-			
 		}
+		fineMapOutput = buildMapOutput.toString(); //store the values into the output string
 	}
 
 	/**
@@ -91,11 +119,12 @@ public abstract class ViolationProcessor {
 	private void AddFineToTree(String zip_code, int fine) {
 		double totalFine = 0.0;
 		if (this.fineMap.containsKey(zip_code)) {
-			totalFine = this.fineMap.get(zip_code);
+			totalFine = this.fineMap.get(zip_code); //if the map already contains the zipcode then extract that value
 		}
-		totalFine = totalFine + (double)fine;
-		this.fineMap.put(zip_code, totalFine);
+		totalFine = totalFine + (double)fine; //increment total value by new fine
+		this.fineMap.put(zip_code, totalFine); //add it to the map
 	}
+	
 	
 	/**
 	 * class to create the reader

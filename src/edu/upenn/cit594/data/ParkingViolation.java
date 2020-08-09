@@ -1,14 +1,13 @@
 package edu.upenn.cit594.data;
 
 public class ParkingViolation {
-	//Come back to play with object types
-	private String date;
-	private int fine;
-	private String description;
-	private String plate_id;
-	private String state;
-	private int ticket_number;
-	private String zip_code;
+	private String date; //date of the fine
+	private int fine; //amount of fine
+	private String description; //description of fine
+	private String plate_id; //vehicle id
+	private String state; //license plate state
+	private int ticket_number; //fine ticket number
+	private String zip_code; //zip code of incident
 	
 	public ParkingViolation(int ticket_number, String plate_id, String date, String zip_code, String description, int fine, String state) {
 		this.ticket_number = ticket_number;

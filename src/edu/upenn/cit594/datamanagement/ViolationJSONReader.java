@@ -4,7 +4,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,22 +16,29 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 import edu.upenn.cit594.data.*;
+import edu.upenn.cit594.logging.Logger;
 
 public class ViolationJSONReader implements ViolationReader {
 	private String fileName;
 	
+	/**
+	 * Constructor
+	 * @param fileName
+	 */
 	public ViolationJSONReader(String fileName) {
 		this.fileName = fileName;
 	}
 
 	@Override
 	public ArrayList<ParkingViolation> readViolations() {
-		ArrayList<ParkingViolation> violations = new ArrayList<ParkingViolation>(); //instantiate array of parking violations
+		ArrayList<ParkingViolation> violations = new ArrayList<ParkingViolation>(); //instantiate list of parking violations
 		JSONParser parser = new JSONParser(); //launch JSON parser
-		
 		try {
+			Logger logger = Logger.getInstance();
+			logger.log(this.fileName); //log the time and filename that has been read
+			
 			//get the array of JSON objects from file
-			JSONArray jsonViolations = (JSONArray)parser.parse(new FileReader(fileName));
+			JSONArray jsonViolations = (JSONArray)parser.parse(new FileReader(fileName)); //get array of Json objects
 			
 			//use an iterator to iterate over each element of the array
 			Iterator iter = jsonViolations.iterator();
@@ -40,7 +47,6 @@ public class ViolationJSONReader implements ViolationReader {
 			while (iter.hasNext()) {
 				JSONObject violation = (JSONObject) iter.next();
 				
-				//process information
 				int ticket_number = ((Long)violation.get("ticket_number")).intValue();
 				String plate_id = (String)violation.get("plate_id");
 				String date = (String)violation.get("date");
@@ -62,6 +68,4 @@ public class ViolationJSONReader implements ViolationReader {
 		}
 		return violations;
 	}
-	
-	
 }
