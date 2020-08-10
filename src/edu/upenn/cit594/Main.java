@@ -5,10 +5,6 @@ import edu.upenn.cit594.processor.*;
 import edu.upenn.cit594.ui.*;
 import edu.upenn.cit594.logging.*;
 
-import java.util.*;
-
-import edu.upenn.cit594.data.*;
-
 public class Main {
 	public static void main(String[] args) {
 		//check if the number of inputs is 5 inputs long, otherwise return an error
@@ -61,9 +57,9 @@ public class Main {
 	
 		//Join threads at end of read
 		try {
-			populationReader.join();
 			propertyReader.join();
 			violationProcess.join();
+			populationReader.join();
 		} catch (InterruptedException e) {
 			System.out.println("Threads used to read files were interrupted.\n");
 			System.exit(0);

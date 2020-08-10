@@ -17,6 +17,7 @@ public class UserInput {
 	private PropertyProcessor propProcessor;
 	private int totalPopulation;
 	private String fineMap;
+	private String commonFineOutput;
 	private HashMap<String, Integer> avgMarketMap;
 	private HashMap<String, Integer> avgLivableAreaMap;
 	private HashMap<String, Integer> marketPerCapitaMap;
@@ -34,6 +35,7 @@ public class UserInput {
 		this.propertyReader = propertyReader;
 		totalPopulation = 0;
 		fineMap = "";
+		commonFineOutput = "";
 		logger = Logger.getInstance();
 		propProcessor = new PropertyProcessor(propertyReader.getPropertyList()); //instantiate property processor
 	}
@@ -48,6 +50,7 @@ public class UserInput {
 			if (instruction >= 0) {
 				switch (instruction) {
 				case 0:
+					System.out.println("Exiting program!");
 					System.exit(0);
 					break;
 				case 1:
@@ -66,6 +69,7 @@ public class UserInput {
 					PrintTotalMarketValuePerCapita();
 					break;
 				case 6:
+					PrintMostCommonFineMap();
 					break;
 				}
 			}
@@ -85,7 +89,7 @@ public class UserInput {
 				"3: Show the average market value for residences in a specified zip code\n" + 
 				"4: Show the average total livable area for residences in a specified zip code\n" + 
 				"5: Show the total residential market value per capita for a specified zip code\n" +
-				"6: Show TBD");
+				"6: Show a sorted list of zip codes and their most common fine in that zip code. Values sorted by total livable area per capita");
 	}
 	
 	/**
@@ -188,5 +192,17 @@ public class UserInput {
 			}
 			System.out.println(returnVal);
 		}
+	}
+	
+	/**
+	 * Show a sorted list of zip codes and their most common fine in that zip code. These values are sorted by Total Livable Area per capita. Smallest shows up first
+	 * Solve problem 6
+	 */
+	private void PrintMostCommonFineMap() {
+		if (commonFineOutput.isEmpty()) { //if the string is empty, run the rocess to get the map
+			ProcessMostCommonFineMap processMostCommon = new ProcessMostCommonFineMap(violationProcess, populationReader, propertyReader, propProcessor);
+			commonFineOutput = processMostCommon.GetCommonFinesMap();
+		}
+		System.out.println(commonFineOutput); //print out map
 	}
 }

@@ -39,7 +39,7 @@ public abstract class ViolationProcessor extends Thread { //extend thread to rea
 	public void CalculateFinesPerCapita(HashMap<String, Integer> populationMap){ 
 		this.populationMap = populationMap;
 		this.PopulateFineTree();
-		this.CalculateFinePerCapita();
+		this.PopulateFinePerCapitaMap();
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public abstract class ViolationProcessor extends Thread { //extend thread to rea
 	/**
 	 * Calculate the fine per capita for each zip code
 	 */
-	private void CalculateFinePerCapita() {
+	private void PopulateFinePerCapitaMap() {
 		for (String zip : fineMap.keySet()) { //go through the fine map
 			Double fine = fineMap.get(zip); //get the total fine
 			if (this.populationMap.containsKey(zip)) { //if the fines exist in the population map
@@ -123,6 +123,14 @@ public abstract class ViolationProcessor extends Thread { //extend thread to rea
 		}
 		totalFine = totalFine + (double)fine; //increment total value by new fine
 		this.fineMap.put(zip_code, totalFine); //add it to the map
+	}
+	
+	/**
+	 * Get list of parking violations
+	 * @return
+	 */
+	public ArrayList<ParkingViolation> getParkingViolations() {
+		return parkingViolations;
 	}
 	
 	
