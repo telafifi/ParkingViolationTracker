@@ -9,20 +9,17 @@ public class ProcessMostCommonFineMap {
 	private ViolationProcessor violationProcess;
 	private PopulationReader populationReader;
 	private PropertyProcessor propProcessor;
-	private PropertiesReader propertyReader;
 	private TreeSet<FinesInZip> finesInZips;
 	
 	/**
 	 * Constructor
 	 * @param violationProcess
 	 * @param populationReader
-	 * @param propertyReader
 	 * @param propProcessor
 	 */
-	public ProcessMostCommonFineMap(ViolationProcessor violationProcess, PopulationReader populationReader, PropertiesReader propertyReader, PropertyProcessor propProcessor) {
+	public ProcessMostCommonFineMap(ViolationProcessor violationProcess, PopulationReader populationReader, PropertyProcessor propProcessor) {
 		this.violationProcess = violationProcess;
 		this.populationReader = populationReader;
-		this.propertyReader = propertyReader;
 		this.propProcessor = propProcessor;
 		finesInZips = new TreeSet<FinesInZip>(); //tree set to keep values sorted
 	}

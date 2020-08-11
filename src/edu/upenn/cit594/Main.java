@@ -30,15 +30,15 @@ public class Main {
 		
 		//instantiate logger with log file
 		String logFileName = args[4];
-		Logger logger = Logger.getInstance("log.txt");
+		Logger logger = Logger.getInstance(logFileName);
 		if (logger.isFileLocked()) { 
 			System.exit(0);			
 		}
 		logger.log(args[0] + " " + args[1] + " " + args[2] + " " + args[3] + " " + args[4]); //log all inputs
 		
 		//initialize reading of property file
-		PropertiesReader propertyReader = new PropertiesReader(propertyFileName);
-		propertyReader.run(); //read the file on a separate thread...Start this first since it's the most time consuming read with the most data
+		PropertyProcessor propertyProcessor = new PropertyProcessor(propertyFileName);
+		propertyProcessor.run(); //read the file on a separate thread...Start this first since it's the most time consuming read with the most data
 		
 		//initialize reading of population file
 		PopulationReader populationReader = new PopulationReader(populationFileName);
@@ -57,7 +57,7 @@ public class Main {
 	
 		//Join threads at end of read
 		try {
-			propertyReader.join();
+			propertyProcessor.join();
 			violationProcess.join();
 			populationReader.join();
 		} catch (InterruptedException e) {
@@ -65,7 +65,7 @@ public class Main {
 			System.exit(0);
 		}
 		
-		UserInput input = new UserInput(violationProcess, populationReader, propertyReader);
+		UserInput input = new UserInput(violationProcess, populationReader, propertyProcessor);
 		input.RunApplication();
 		
 	}

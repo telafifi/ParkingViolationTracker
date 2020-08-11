@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import edu.upenn.cit594.data.*;
 import edu.upenn.cit594.logging.Logger;
 
-public class PropertiesReader extends Thread {
+public class PropertiesReader {
 	private String fileName;
 	private int zipCodeColumn; //column number that holds zip code
 	private int marketValueColumn; //column number that holds market value
@@ -29,7 +29,7 @@ public class PropertiesReader extends Thread {
 	/**
 	 * Read the property file and store the list of inputs in the propertyList
 	 */
-	private void ReadPropertyFile() {
+	public void ReadPropertyFile() {
 		File file = new File(this.fileName); //instantiate the file
 		try {
 			Logger logger = Logger.getInstance();
@@ -136,13 +136,6 @@ public class PropertiesReader extends Thread {
 			zipCode = zipCode.substring(0, 5); //No need to return a string since the object will be modified
 		}
 		return zipCode;
-	}
-
-	/**
-	 * Used to read the file asynchronously while reading other files
-	 */
-	public void run() {
-		this.ReadPropertyFile();
 	}
 	
 	/**

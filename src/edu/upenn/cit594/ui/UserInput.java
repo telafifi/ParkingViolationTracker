@@ -13,7 +13,6 @@ public class UserInput {
 	private Scanner in;
 	private ViolationProcessor violationProcess;
 	private PopulationReader populationReader;
-	private PropertiesReader propertyReader;
 	private PropertyProcessor propProcessor;
 	private int totalPopulation;
 	private String fineMap;
@@ -29,15 +28,14 @@ public class UserInput {
 	 * @param populationReader
 	 * @param propertyReader
 	 */
-	public UserInput(ViolationProcessor violationProcess, PopulationReader populationReader, PropertiesReader propertyReader) {
+	public UserInput(ViolationProcessor violationProcess, PopulationReader populationReader, PropertyProcessor propProcessor) {
 		this.violationProcess = violationProcess;
 		this.populationReader = populationReader;
-		this.propertyReader = propertyReader;
+		this.propProcessor = propProcessor;
 		totalPopulation = 0;
 		fineMap = "";
 		commonFineOutput = "";
 		logger = Logger.getInstance();
-		propProcessor = new PropertyProcessor(propertyReader.getPropertyList()); //instantiate property processor
 	}
 	
 	public void RunApplication() {
@@ -200,7 +198,7 @@ public class UserInput {
 	 */
 	private void PrintMostCommonFineMap() {
 		if (commonFineOutput.isEmpty()) { //if the string is empty, run the rocess to get the map
-			ProcessMostCommonFineMap processMostCommon = new ProcessMostCommonFineMap(violationProcess, populationReader, propertyReader, propProcessor);
+			ProcessMostCommonFineMap processMostCommon = new ProcessMostCommonFineMap(violationProcess, populationReader, propProcessor);
 			commonFineOutput = processMostCommon.GetCommonFinesMap();
 		}
 		System.out.println(commonFineOutput); //print out map

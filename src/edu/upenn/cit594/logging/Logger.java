@@ -12,6 +12,9 @@ private FileWriter out; //private field to write to file
 	private Logger (String fileName) {
 		try {
 			File file = new File(fileName);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
 			if (!file.canWrite()) {
 				instance = null;
 			}

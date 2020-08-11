@@ -4,17 +4,27 @@ import edu.upenn.cit594.data.*;
 import edu.upenn.cit594.datamanagement.*;
 import java.util.*;
 
-public class PropertyProcessor {
+public class PropertyProcessor extends Thread {
+	private String fileName;
 	private List<Property> properties; //total list of properties
 	private HashMap<String, List<Property>> propsInZipMap; //map to hold the list of properties within a map
 	
 	/**
 	 * Constructor
-	 * @param properties
+	 * @param fileName
 	 */
-	public PropertyProcessor(List<Property> properties) {
-		this.properties = properties;
+	public PropertyProcessor(String fileName) {
+		this.fileName = fileName;
 		this.propsInZipMap = new HashMap<String, List<Property>>(); //instantiate property map
+	}
+	
+	/**
+	 * Used to read the file asynchronously while reading other files
+	 */
+	public void run() {
+		PropertiesReader propertyReader = new PropertiesReader(this.fileName); //instantiate the reader
+		propertyReader.ReadPropertyFile(); //read the property file
+		this.properties = propertyReader.getPropertyList(); //get the list of properties and store it in object
 	}
 	
 	/**
