@@ -50,7 +50,7 @@ public class PropertyProcessor extends Thread {
 	 * @param collect
 	 * @return
 	 */
-	public int getTotalValuePerCapita(String zipCode, HashMap<String, Integer> populationMap, PropertyValueCollector collect) {
+	public int getTotalValuePerCapita(String zipCode, Map<String, Integer> populationMap, PropertyValueCollector collect) {
 		if (!populationMap.containsKey(zipCode)) { //if the population map does not contain the value then return a zero
 			return 0;
 		}

@@ -30,7 +30,7 @@ public class ProcessMostCommonFineMap {
 	 */
 	private void MostCommonFinesCollector() {
 		List<ParkingViolation> parkingViolations = violationProcess.getParkingViolations(); //get list of parking violations
-		HashMap<String, Integer> populationMap = populationReader.getPopulationMap(); //get population map
+		Map<String, Integer> populationMap = populationReader.getPopulationMap(); //get population map
 		for (String zipCode: populationMap.keySet()) { //go through zip codes in population map
 			int livableAreaPerCapita = propProcessor.getTotalValuePerCapita(zipCode, populationReader.getPopulationMap(), new LivableAreaCollector()); //calculate the total value per capita
 			FinesInZip zipFine = new FinesInZip(zipCode, livableAreaPerCapita);
@@ -50,6 +50,9 @@ public class ProcessMostCommonFineMap {
 	 * @return
 	 */
 	public String GetCommonFinesMap() {
+		if (this.populationReader.getPopulationMap().isEmpty()) {
+			return "The population input file is empty";
+		}
 		MostCommonFinesCollector(); //run processor to build the treeSet of fines
 		StringBuilder buildMapOutput = new StringBuilder(); //build a string builder
 		buildMapOutput.append("Zip   | Most Common Fine\n"); //header

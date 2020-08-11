@@ -10,7 +10,7 @@ import java.util.*;
 public abstract class ViolationProcessor extends Thread { //extend thread to read all files simultaneously
 	protected ViolationReader reader;
 	private ArrayList<ParkingViolation> parkingViolations;
-	private HashMap<String, Integer> populationMap;
+	private Map<String, Integer> populationMap;
 	private TreeMap<String, Double> fineMap;
 	private String fineMapOutput; //string to hold 
 	
@@ -36,7 +36,7 @@ public abstract class ViolationProcessor extends Thread { //extend thread to rea
 	 * Calculate the fines per capita by taking in a map of all zip codes and maps
 	 * @return
 	 */
-	public void CalculateFinesPerCapita(HashMap<String, Integer> populationMap){ 
+	public void CalculateFinesPerCapita(Map<String, Integer> populationMap){ 
 		this.populationMap = populationMap;
 		this.PopulateFineTree();
 		this.PopulateFinePerCapitaMap();
@@ -96,7 +96,12 @@ public abstract class ViolationProcessor extends Thread { //extend thread to rea
 	 * Build the fine map string to print by iterating through the entire list
 	 */
 	private void BuildFineMapOutput() {
-		if (fineMap == null || fineMap.isEmpty()) { //return if the map is null or empty
+		String errorString = "The population input file or parking violation input file provided is empty. Could not produce valid output without the inputs!";
+		if (fineMap == null) { //return if the map is null or empty
+			return;
+		}
+		else if (fineMap.isEmpty()) {
+			fineMapOutput = errorString;
 			return;
 		}
 		DecimalFormat df = new DecimalFormat("#.####"); //truncate the double to 4 decimal spots
@@ -109,6 +114,9 @@ public abstract class ViolationProcessor extends Thread { //extend thread to rea
 			}
 		}
 		fineMapOutput = buildMapOutput.toString(); //store the values into the output string
+		if (fineMapOutput.isEmpty()) {
+			fineMapOutput = errorString;
+		}
 	}
 
 	/**

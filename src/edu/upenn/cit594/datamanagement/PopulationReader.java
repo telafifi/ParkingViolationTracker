@@ -1,8 +1,7 @@
 package edu.upenn.cit594.datamanagement;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.regex.Pattern;
+import java.util.*;
 
 import edu.upenn.cit594.logging.*;
 
@@ -26,7 +25,7 @@ public class PopulationReader extends Thread { //extend thread to read all files
 	 * Return the population map. If the map is un-populated (empty) then read the population file prior to returning the map
 	 * @return
 	 */
-	public HashMap<String, Integer> getPopulationMap() {
+	public Map<String, Integer> getPopulationMap() {
 		if (this.populationMap.keySet().isEmpty()) {
 			ReadPopulationFile();
 		}

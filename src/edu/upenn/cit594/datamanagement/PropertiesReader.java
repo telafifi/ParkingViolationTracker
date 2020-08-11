@@ -78,19 +78,11 @@ public class PropertiesReader {
 	 * @return
 	 */
 	private String[] ParseCSVFile(String line) {
+		//This method splits on a comma ONLY if that comma has zero, or an even number of quotes ahead of it
 		String otherThanQuote = " [^\"] "; //splitting using this regex is time intensive
         String quotedString = String.format(" \" %s* \" ", otherThanQuote);
-        String regex = String.format("(?x) "+ // enable comments, ignore white spaces
-                ",                         "+ // match a comma
-                "(?=                       "+ // start positive look ahead
-                "  (?:                     "+ //   start non-capturing group 1
-                "    %s*                   "+ //     match 'otherThanQuote' zero or more times
-                "    %s                    "+ //     match 'quotedString'
-                "  )*                      "+ //   end group 1 and repeat it zero or more times
-                "  %s*                     "+ //   match 'otherThanQuote'
-                "  $                       "+ // match the end of the string
-                ")                         ", // stop positive look ahead
-                otherThanQuote, quotedString, otherThanQuote);
+        String regex = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"; //this regex checks for commas and checks to see if there is a quotation mark after the comma. 
+        //If so, it will not parse the next comma until a second quotation mark is found
         return line.split(regex, -1);
 	}
 	
