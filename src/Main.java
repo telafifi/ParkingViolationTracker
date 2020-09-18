@@ -1,11 +1,10 @@
-package edu.upenn.cit594;
 
 import java.io.File;
 
-import edu.upenn.cit594.datamanagement.*;
-import edu.upenn.cit594.processor.*;
-import edu.upenn.cit594.ui.*;
-import edu.upenn.cit594.logging.*;
+import datamanagement.*;
+import processor.*;
+import ui.*;
+import logging.*;
 
 public class Main {
 	public static void main(String[] args) {

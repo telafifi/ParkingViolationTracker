@@ -1,4 +1,4 @@
-package edu.upenn.cit594.datamanagement;
+package datamanagement;
 
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
-import edu.upenn.cit594.data.*;
-import edu.upenn.cit594.logging.Logger;
+import data.*;
+import logging.Logger;
 
 public class ViolationJSONReader implements ViolationReader {
 	private String fileName;

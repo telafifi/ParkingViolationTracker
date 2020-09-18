@@ -1,4 +1,4 @@
-package edu.upenn.cit594.data;
+package data;
 
 import java.util.*;
 

@@ -1,7 +1,7 @@
-package edu.upenn.cit594.processor;
+package processor;
 
-import edu.upenn.cit594.data.*;
-import edu.upenn.cit594.datamanagement.*;
+import data.*;
+import datamanagement.*;
 import java.util.*;
 
 public class PropertyProcessor extends Thread {

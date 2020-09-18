@@ -1,9 +1,9 @@
-package edu.upenn.cit594.processor;
+package processor;
 
 import java.util.*;
 import java.util.stream.*;
 
-import edu.upenn.cit594.data.*;
+import data.*;
 
 public class LivableAreaCollector implements PropertyValueCollector {
 	//These values are static so that new Collectors can access the maps

@@ -1,13 +1,13 @@
-package edu.upenn.cit594.ui;
+package ui;
 
-import edu.upenn.cit594.datamanagement.*;
+import datamanagement.*;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
-import edu.upenn.cit594.data.*;
-import edu.upenn.cit594.logging.*;
-import edu.upenn.cit594.processor.*;
+import data.*;
+import logging.*;
+import processor.*;
 
 public class UserInput {
 	private Scanner in;

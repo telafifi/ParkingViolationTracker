@@ -1,4 +1,4 @@
-package edu.upenn.cit594.datamanagement;
+package datamanagement;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import edu.upenn.cit594.data.*;
-import edu.upenn.cit594.logging.Logger;
+import data.*;
+import logging.Logger;
 
 public class ViolationCSVReader implements ViolationReader {
 	private String fileName;

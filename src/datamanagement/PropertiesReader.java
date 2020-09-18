@@ -1,11 +1,11 @@
-package edu.upenn.cit594.datamanagement;
+package datamanagement;
 
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import edu.upenn.cit594.data.*;
-import edu.upenn.cit594.logging.Logger;
+import data.*;
+import logging.Logger;
 
 public class PropertiesReader {
 	private String fileName;

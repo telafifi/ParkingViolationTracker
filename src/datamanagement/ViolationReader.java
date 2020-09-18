@@ -1,8 +1,8 @@
-package edu.upenn.cit594.datamanagement;
+package datamanagement;
 
 import java.util.ArrayList;
 
-import edu.upenn.cit594.data.*;
+import data.*;
 
 public interface ViolationReader { //interface to read the parking violation file
 	/**

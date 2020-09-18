@@ -1,4 +1,4 @@
-package edu.upenn.cit594.logging;
+package logging;
 
 import java.io.*;
 

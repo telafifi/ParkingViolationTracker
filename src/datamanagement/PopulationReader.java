@@ -1,9 +1,9 @@
-package edu.upenn.cit594.datamanagement;
+package datamanagement;
 
 import java.io.*;
 import java.util.*;
 
-import edu.upenn.cit594.logging.*;
+import logging.*;
 
 public class PopulationReader extends Thread { //extend thread to read all files simultaneously at launch
 	private String fileName;

@@ -1,7 +1,7 @@
-package edu.upenn.cit594.processor;
+package processor;
 
 import java.util.*;
-import edu.upenn.cit594.data.*;
+import data.*;
 
 public interface PropertyValueCollector { //interface to collect values from property list
 	/**

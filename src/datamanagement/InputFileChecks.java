@@ -1,4 +1,4 @@
-package edu.upenn.cit594.datamanagement;
+package datamanagement;
 
 import java.io.*;
 import java.util.regex.Pattern;

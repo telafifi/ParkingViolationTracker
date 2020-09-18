@@ -1,9 +1,9 @@
-package edu.upenn.cit594.processor;
+package processor;
 
 import java.util.*;
 
-import edu.upenn.cit594.data.*;
-import edu.upenn.cit594.datamanagement.*;
+import data.*;
+import datamanagement.*;
 
 public class ProcessMostCommonFineMap {
 	private ViolationProcessor violationProcess;
