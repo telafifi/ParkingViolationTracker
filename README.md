@@ -44,9 +44,12 @@ The runtime arguments to the program should be as follows, in this order:
 ### Running the Program
 If the number of runtime argumes correct, the input files exist and can be read, the program then prompts the user to specify the action to be performed:
 - If the user enters the number 0, the program should exit.
-- If the user enters the number 1, the program should show the total population for all ZIP Codes, as described in Step #1 below.
-- If the user enters the number 2, the program should show the total parking fines per capita for each ZIP Code, as described in Step #2 below.
-- If the user enters the number 3, the program should show the average market value for residences in a specified ZIP Code, as described in Step #3 below.
-- If the user enters the number 4, the program should show the average total livable area for residences in a specified ZIP Code, as described in Step #4 below.
-- If the user enters the number 5, the program should show the total residential market value per capita for a specified ZIP Code, as described in Step #5 below.
-- If the user enters the number 6, the program should show the results of your custom feature, as described in Step #6 below
+- If the user enters the number 1, the program should show the total population for all ZIP Codes.
+- If the user enters the number 2, the program should show the total parking fines per capita for each ZIP Code.
+- If the user enters the number 3, the program should show the average market value for residences in a specified ZIP Code.
+- If the user enters the number 4, the program should show the average total livable area for residences in a specified ZIP Code.
+- If the user enters the number 5, the program should show the total residential market value per capita for a specified ZIP Code.
+- If the user enters the number 6, the program should show a sorted list of zip codes and the
+most common fine that occurred in that zip code. Values are sorted by the total livable area per
+capita of that zip code.
+
