@@ -52,4 +52,23 @@ If the number of runtime argumes correct, the input files exist and can be read,
 - If the user enters the number 6, the program should show a sorted list of zip codes and the
 most common fine that occurred in that zip code. Values are sorted by the total livable area per
 capita of that zip code.
+### Logging
+In addition to displaying the output as described above, the program also records the user inputs and activities by writing to the log file that was specified as a runtime argument to the program.
 
+## Design Patterns Used
+### Singleton Design Pattern
+The singleton pattern is a creational design pattern that ensures that there is only one instance of a class, which can be easily accessed. The goal of the pattern is to ensure that all the code is using the same instance and allow code to use the single instance without having to create it.
+
+The singleton pattern was used when creating the log file, this way only one log object would be created/referenced throughout the entire project.
+
+### Factory Method Design Pattern
+This is a creational pattern that uses inheritance to separate the code that uses another class from the code that creates it. E.g.:
+- Class A has a dependency on Class B
+- Subclasses of A override a factory method used to create an instance of the desired subclass of B
+
+The factory method was used when reading the Parking Violations files which could be either JSON or CSV formats. This method allowed for the application to be able to read/process data from either file without caring about type.
+
+### Strategy Design Pattern
+This is a behavioral pattern in which we create classes to specify certain strategies that can be used as part of a larger algorithm. We use a class that represents the strategy and pass an instance to a single method that implements the rest of the algorithm.
+
+This was used to assign similar methods for both the market value and livable area data sets from the input. Here, we were able to use a strategy of calculating average/per capita values and use them throughout the application.
